@@ -194,7 +194,7 @@
                 &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
                 &ht LCTRL A    &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
                 &kp Z          &ht LCTRL X    &ht LALT C     &ht LGUI V     &kp B          &kp N          &kp M          &kp COMMA      &kp DOT         &kp ENTER
-                &lt LEF TAB    &kp LSHIFT     &kp SPACE      &lt RIG TAB
+                &lt LEF TAB    &kp LGUI      &kp SPACE      &lt RIG TAB
             >;
         };
 
