@@ -1,8 +1,8 @@
 // Copyright (c) 2022 The ZMK Contributors
 // SPDX-License-Identifier: MIT
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 2500  // 600
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 20    // 10
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 850
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #include <behaviors.dtsi>
 #include "behaviors/character_map.dtsi"
@@ -14,12 +14,10 @@
 #include <dt-bindings/zmk/pointing.h>
 
 #define MAC 0
-#define WIN 1
-#define RIG 2
-#define LEF 3
-#define TRI 4
-#define MOUSE 5
-
+#define RIG 1
+#define LEF 2
+#define TRI 3
+#define MOUSE 4
 
 // https://zmk.dev/docs/development/hardware-integration/soft-off-setup?advanced-methods=wakeup&kscan-type=dkscan
 / {
@@ -60,19 +58,110 @@
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "balanced";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <150>;
+            tapping-term-ms = <175>;
+            quick-tap-ms = <140>;
             bindings = <&kp>, <&kp>;
         };
+        inp_src: inp_src {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_tap &kp SPACE &macro_release &kp LCTRL>;
+        };
+        vo_toggle: vo_toggle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LGUI &macro_tap &kp F5 &macro_release &kp LGUI>;
+        };
+        shot_full: shot_full {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LSHIFT &macro_press &kp LGUI &macro_tap &kp N3 &macro_release &kp LGUI &macro_release &kp LSHIFT>;
+        };
+        shot_region: shot_region {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LSHIFT &macro_press &kp LGUI &macro_tap &kp N4 &macro_release &kp LGUI &macro_release &kp LSHIFT>;
+        };
+        spotlite: spotlite {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LGUI &macro_tap &kp SPACE &macro_release &kp LGUI>;
+        };
+        emoji_picker: emoji_picker {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_press &kp LGUI &macro_tap &kp SPACE &macro_release &kp LGUI &macro_release &kp LCTRL>;
+        };
+        mission_control: mission_control {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_tap &kp UP &macro_release &kp LCTRL>;
+        };
+        space_left: space_left {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_tap &kp LEFT &macro_release &kp LCTRL>;
+        };
+        space_right: space_right {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_tap &kp RIGHT &macro_release &kp LCTRL>;
+        };
+        browser_tab_next: browser_tab_next {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_tap &kp TAB &macro_release &kp LCTRL>;
+        };
+        app_switch: app_switch {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LGUI &macro_tap &kp TAB &macro_release &kp LGUI>;
+        };
+        same_app_cycle: same_app_cycle {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LGUI &macro_tap &kp GRAVE &macro_release &kp LGUI>;
+        };
+        layer_hint: layer_hint {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <5>;
+            bindings = <&macro_press &kp LCTRL &macro_press &kp LALT &macro_tap &kp H &macro_release &kp LALT &macro_release &kp LCTRL>;
+        };
         mmv {
-            acceleration-exponent = <1>;      // 1
-            time-to-max-speed-ms = <300>;    // 40
-            delay-ms = <0>;                   // 0
+            acceleration-exponent = <0>;
+            time-to-max-speed-ms = <380>;
+            delay-ms = <0>;
         };
         msc {
-            acceleration-exponent = <0>;      // 0
-            time-to-max-speed-ms = <40>;      // 500
-            delay-ms = <0>;                   // 10
+            acceleration-exponent = <0>;
+            time-to-max-speed-ms = <40>;
+            delay-ms = <0>;
         };
     };
 
@@ -85,65 +174,90 @@
         };
     };
 
+    /*
+     * layer_hint sends Ctrl+Alt+H. ZMK cannot draw on screen; pair with macOS Shortcuts:
+     * Shortcuts app -> new shortcut -> Open File or Show Notification -> assign shortcut Ctrl+Alt+H.
+     * Or use ZMK Studio (&studio_unlock) for an interactive map from the firmware side.
+     */
+
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             display-name = "DEFAULT";
+             /*
+             *   Q      W      E      R      T  |  Y      U      I      O      P
+             *   A(Ctrl) S      D      F      G  |  H      J      K      L      BSPC
+             *   Z     X(Ctrl) C(Opt) V(Cmd) B  |  N      M      ,      .      ENT
+             */
             bindings = <
-            &kp Q  &kp W       &kp E        &kp R        &kp T         &kp Y      &kp U        &kp I        &kp O       &kp P
-            &kp A  &ht LALT S  &ht LCTRL D  &ht LGUI F   &kp G         &kp H      &ht RGUI J   &ht RCTRL K  &ht RALT L  &kp BSPC
-            &kp Z  &kp X       &kp C        &kp V        &kp B         &kp N      &kp M        &kp COMMA    &kp DOT     &kp ENTER
-            &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB
-            >;
-        };
-
-        windows_layer {
-            display-name = "WIN";
-            bindings = <
-            &kp Q  &kp W       &kp E       &kp R        &kp T         &kp Y      &kp U        &kp I       &kp O       &kp P
-            &kp A  &ht LALT S  &ht LGUI D  &ht LCTRL F  &kp G         &kp H      &ht RCTRL J  &ht RGUI K  &ht RALT L  &kp BSPC
-            &kp Z  &kp X       &kp C       &kp V        &kp B         &kp N      &kp M        &kp COMMA   &kp DOT     &kp ENTER
-            &lt LEF TAB  &kp LSHIFT     &kp SPACE &lt RIG TAB
+                &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
+                &ht LCTRL A    &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
+                &kp Z          &ht LCTRL X    &ht LALT C     &ht LGUI V     &kp B          &kp N          &kp M          &kp COMMA      &kp DOT         &kp ENTER
+                &lt LEF TAB    &kp LSHIFT     &kp SPACE      &lt RIG TAB
             >;
         };
 
         right_layer {
             display-name = "NUM & NAVIGATION";
+             /*
+             *   1      2      3      4      5  |  6      7      8      9      0
+             *   DEL    CAPS   PSCR   INS   AppSw |  LEFT   DOWN   UP    RIGHT  CmdGrv
+             *   INP    Emoji  Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    BOOT
+             *   thumb: BOOT(L)  ESC   Hint  -      |  R-hand BOOT on last key row above
+             */
             bindings = <
-            &kp N1   &kp N2    &kp N3     &kp N4   &kp N5     &kp N6  &kp N7    &kp N8     &kp N9     &kp N0
-            &kp DEL  &kp CAPS  &kp PSCRN  &kp INS  &trans     &kp LEFT  &kp DOWN   &kp UP  &kp RIGHT &trans
-            &trans   &trans    &trans     &trans   &trans     &kp HOME  &kp PG_DN  &kp PG_UP  &kp END &bootloader
-            &trans   &kp ESC    &trans  &trans
+                &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
+                &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &app_switch    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
+                &inp_src       &emoji_picker  &spotlite      &mission_control &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &bootloader
+                &bootloader    &kp ESC        &layer_hint    &trans
             >;
         };
 
         left_layer {
             display-name = "SYMBOL";
+             /*
+             *   !      @      #      $      %  |  ^      &      *      `      ~
+             *   "      [      {      (    RPT  |  /      -      =      :      ;
+             *   '      ]      }      )    BOOT |  \      _      +      |      ?
+             *   thumb: -   -   MOUSE  BOOT(R)    |  L-hand BOOT on row above col )
+             */
             bindings = <
-            &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp ASTRK  &kp GRAVE  &kp TILDE
-            &kp DQT   &kp LBKT  &kp LBRC  &kp LPAR  &default_report       &kp FSLH   &kp MINUS  &kp EQUAL  &kp COLON  &kp SEMI
-            &kp SQT   &kp RBKT  &kp RBRC  &kp RPAR  &bootloader       &kp BSLH   &kp UNDER  &kp PLUS   &kp PIPE   &kp QMARK
-            &trans    &trans       &tog MOUSE     &trans
+                &kp EXCL       &kp AT         &kp HASH       &kp DLLR       &kp PRCNT      &kp CARET      &kp AMPS       &kp ASTRK      &kp GRAVE      &kp TILDE
+                &kp DQT        &kp LBKT       &kp LBRC       &kp LPAR       &default_report &kp FSLH       &kp MINUS      &kp EQUAL      &kp COLON      &kp SEMI
+                &kp SQT        &kp RBKT       &kp RBRC       &kp RPAR       &bootloader    &kp BSLH       &kp UNDER      &kp PLUS       &kp PIPE       &kp QMARK
+                &trans         &trans         &tog MOUSE     &bootloader
             >;
         };
 
         tri_layer {
             display-name = "FUNC";
+             /*
+             *   ESC    F2     F3     F4     BT0  |  BT1    OUT    MUTE   PREV   Hint
+             *   VO     Shot4  Shot3  Emoji  BT2  |  BTCLR  BRI+   Studio VOL+   Play
+             *   SpL    SpR    Tab    Spot   -    |  -      BRI-   OFF    VOL-   Next
+             *   thumb: BOOT  -   -   BOOT       |  DFU on each half
+             */
             bindings = <
-            &kp F1  &kp F2   &kp F3   &kp F4   &bt BT_SEL 0    &bt BT_SEL 2  &out OUT_TOG   &tog WIN  &kp C_MUTE    &kp C_PREV
-            &kp F5  &kp F6   &kp F7   &kp F8   &bt BT_SEL 1    &bt BT_SEL 3  &kp C_BRI_UP   &studio_unlock    &kp C_VOL_UP  &kp C_PP
-            &kp F9  &kp F10  &kp F11  &kp F12  &bt BT_CLR      &bt BT_SEL 4  &kp C_BRI_DEC  &soft_off    &kp C_VOL_DN  &kp C_NEXT
-            &trans   &trans          &trans        &trans
+                &kp ESC        &kp F2         &kp F3         &kp F4         &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
+                &vo_toggle     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
+                &space_left    &space_right   &browser_tab_next &spotlite   &trans         &trans         &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &kp C_NEXT
+                &bootloader    &trans         &trans         &bootloader
             >;
         };
+
         mouse {
             display-name = "MOUSE";
+             /*
+             *   MO     MB4    MCLK   MB5    -    |  ScrL   ScrD   MoveU  ScrR   MO
+             *    -      -      -      -      -    |   -     MoveL  MoveD  MoveR   -
+             *   (mouse layer: I=up, J=left, K=down, L=right on RH home row)
+             */
             bindings = <
-            &tog MOUSE  &mkp MB4  &mkp MCLK  &mkp MB5   &trans      &msc SCRL_LEFT     &msc SCRL_DOWN    &msc SCRL_UP     &msc SCRL_RIGHT    &tog MOUSE
-            &trans      &trans    &trans     &trans     &trans      &mmv MOVE_LEFT     &mmv MOVE_DOWN    &mmv MOVE_UP     &mmv MOVE_RIGHT    &trans
-            &trans      &trans    &trans     &trans     &trans      &trans     &mkp MB4  &mkp MCLK  &mkp MB5  &trans
-            &kp SPACE  &kp LSHIFT  &mkp LCLK  &mkp RCLK
+                &tog MOUSE     &mkp MB4      &mkp MCLK      &mkp MB5      &trans         &msc SCRL_LEFT &msc SCRL_DOWN &mmv MOVE_UP   &msc SCRL_RIGHT &tog MOUSE
+                &trans         &trans         &trans         &trans         &trans         &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans
+                &trans         &trans         &trans         &trans         &trans         &trans         &mkp MB4       &mkp MCLK      &mkp MB5       &trans
+                &kp SPACE      &kp LSHIFT     &mkp LCLK      &mkp RCLK
             >;
         };
     };
