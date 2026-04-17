@@ -66,17 +66,17 @@
             display-name = "hold_tap_tap_pref";
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <130>;
-            quick-tap-ms = <110>;
+            flavor = "tap-unless-interrupted";
+            tapping-term-ms = <90>;
+            quick-tap-ms = <75>;
             bindings = <&kp>, <&kp>;
         };
         ltt: layer_tab_thumb {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <130>;
-            quick-tap-ms = <110>;
+            tapping-term-ms = <95>;
+            quick-tap-ms = <80>;
             bindings = <&mo>, <&kp>;
         };
         shot_full: shot_full {
