@@ -62,15 +62,6 @@
             quick-tap-ms = <140>;
             bindings = <&kp>, <&kp>;
         };
-        th_cmd: thumb_cmd {
-            display-name = "thumb_cmd";
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "hold-preferred";
-            tapping-term-ms = <230>;
-            quick-tap-ms = <110>;
-            bindings = <&kp>, <&kp>;
-        };
         vo_toggle: vo_toggle {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -111,14 +102,21 @@
             #binding-cells = <0>;
             wait-ms = <5>;
             tap-ms = <5>;
-            bindings = <&macro_press &kp LCTRL &macro_tap &kp LEFT &macro_release &kp LCTRL>;
+            bindings = <&macro_press &kp LCTRL &macro_press &kp LALT &macro_tap &kp LEFT &macro_release &kp LALT &macro_release &kp LCTRL>;
         };
         space_right: space_right {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <5>;
             tap-ms = <5>;
-            bindings = <&macro_press &kp LCTRL &macro_tap &kp RIGHT &macro_release &kp LCTRL>;
+            bindings = <&macro_press &kp LCTRL &macro_press &kp LALT &macro_tap &kp RIGHT &macro_release &kp LALT &macro_release &kp LCTRL>;
+        };
+        ctrl_up: ctrl_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <5>;
+            tap-ms = <20>;
+            bindings = <&macro_press &kp LCTRL &macro_tap &kp UP &macro_release &kp LCTRL>;
         };
         browser_tab_next: browser_tab_next {
             compatible = "zmk,behavior-macro";
@@ -162,7 +160,7 @@
         };
     };
 
-    /* FUNC/tri: outer thumb keys are matrix 15 (Tab/LEF) + 32 (Tab/RIG). Inner 16 = Cmd/Space, 33 = unused — those do not stack LEF+RIG. */
+    /* FUNC/tri: outer thumbs 15+32 (Tab/LEF + Tab/RIG). Inner thumbs are separate LGUI and SPACE — they do not participate in LEF+RIG stacking. */
     combos {
         compatible = "zmk,combos";
 
@@ -189,12 +187,13 @@
              *   Q      W      E      R      T  |  Y      U      I      O      P
              *   A(Ctrl) S      D      F      G  |  H      J      K      L      BSPC
              *   Z(Sh) X(Ctrl) C(Opt) V(Cmd) B  |  N(Sh) M(C) ,(A) .(Cmd) ENT
+             *   thumb: TAB(SYM)  Cmd  Space  TAB(NUM)
              */
             bindings = <
                 &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
                 &ht LCTRL A    &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
                 &ht LSHIFT Z   &ht LCTRL X    &ht LALT C     &ht LGUI V     &kp B          &ht RSHIFT N   &ht RCTRL M    &ht RALT COMMA &ht RGUI DOT    &kp ENTER
-                &lt LEF TAB    &th_cmd LGUI SPACE &trans    &lt RIG TAB
+                &lt LEF TAB    &kp LGUI       &kp SPACE      &lt RIG TAB
             >;
         };
 
@@ -203,13 +202,13 @@
              /*
              *   1      2      3      4      5  |  6      7      8      9      0
              *   DEL    CAPS   PSCR   INS   AppSw |  LEFT   DOWN   UP    RIGHT  CmdGrv
-             *   INP    Emoji  Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    -
+             *   Globe  Emoji  Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    -
              *   thumb: -      ESC   Hint  -      |  (BOOT only on FUNC tri: B/N)
              */
             bindings = <
                 &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
                 &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &kp LG(TAB)    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
-                &kp LC(SPACE)  &emoji_picker  &spotlite      &kp LC(UP)     &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                &kp GLOBE      &emoji_picker  &spotlite      &ctrl_up       &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
                 &trans         &kp ESC        &layer_hint    &trans
             >;
         };
@@ -239,7 +238,7 @@
              *   thumb: -      -   -   -          |  BOOT: hold FUNC then B=left MCU  N=right MCU
              */
             bindings = <
-                &kp ESC        &space_left    &kp LC(UP)     &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
+                &kp ESC        &space_left    &ctrl_up       &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
                 &vo_toggle     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
                 &browser_tab_next &spotlite   &trans         &trans         &bootloader    &bootloader    &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &bt BT_DISC
                 &trans         &trans         &trans         &trans
