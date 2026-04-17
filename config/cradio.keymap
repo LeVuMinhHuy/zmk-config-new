@@ -62,6 +62,15 @@
             quick-tap-ms = <140>;
             bindings = <&kp>, <&kp>;
         };
+        th_cmd: thumb_cmd {
+            display-name = "thumb_cmd";
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <230>;
+            quick-tap-ms = <110>;
+            bindings = <&kp>, <&kp>;
+        };
         inp_src: inp_src {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -104,13 +113,6 @@
             tap-ms = <5>;
             bindings = <&macro_press &kp LCTRL &macro_press &kp LGUI &macro_tap &kp SPACE &macro_release &kp LGUI &macro_release &kp LCTRL>;
         };
-        mission_control: mission_control {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <5>;
-            tap-ms = <5>;
-            bindings = <&macro_press &kp LCTRL &macro_tap &kp UP &macro_release &kp LCTRL>;
-        };
         space_left: space_left {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -131,13 +133,6 @@
             wait-ms = <5>;
             tap-ms = <5>;
             bindings = <&macro_press &kp LCTRL &macro_tap &kp TAB &macro_release &kp LCTRL>;
-        };
-        app_switch: app_switch {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <5>;
-            tap-ms = <5>;
-            bindings = <&macro_press &kp LGUI &macro_tap &kp TAB &macro_release &kp LGUI>;
         };
         same_app_cycle: same_app_cycle {
             compatible = "zmk,behavior-macro";
@@ -169,8 +164,20 @@
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <RIG LEF>;
+            if-layers = <LEF RIG>;
             then-layer = <TRI>;
+        };
+    };
+
+    /* FUNC/tri: outer thumb keys are matrix 15 (Tab/LEF) + 32 (Tab/RIG). Inner 16 = Cmd/Space, 33 = unused — those do not stack LEF+RIG. */
+    combos {
+        compatible = "zmk,combos";
+
+        tri_outer_thumbs {
+            timeout-ms = <180>;
+            key-positions = <15 32>;
+            bindings = <&mo 3>;
+            layers = <0>;
         };
     };
 
@@ -188,13 +195,13 @@
              /*
              *   Q      W      E      R      T  |  Y      U      I      O      P
              *   A(Ctrl) S      D      F      G  |  H      J      K      L      BSPC
-             *   Z     X(Ctrl) C(Opt) V(Cmd) B  |  N      M      ,      .      ENT
+             *   Z(Sh) X(Ctrl) C(Opt) V(Cmd) B  |  N(Sh) M(C) ,(A) .(Cmd) ENT
              */
             bindings = <
                 &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
                 &ht LCTRL A    &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
-                &kp Z          &ht LCTRL X    &ht LALT C     &ht LGUI V     &kp B          &kp N          &kp M          &kp COMMA      &kp DOT         &kp ENTER
-                &lt LEF TAB    &kp LGUI      &kp SPACE      &lt RIG TAB
+                &ht LSHIFT Z   &ht LCTRL X    &ht LALT C     &ht LGUI V     &kp B          &ht RSHIFT N   &ht RCTRL M    &ht RALT COMMA &ht RGUI DOT    &kp ENTER
+                &lt LEF TAB    &th_cmd LGUI SPACE &trans    &lt RIG TAB
             >;
         };
 
@@ -208,8 +215,8 @@
              */
             bindings = <
                 &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
-                &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &app_switch    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
-                &inp_src       &emoji_picker  &spotlite      &mission_control &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &bootloader
+                &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &kp LG(TAB)    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
+                &inp_src       &emoji_picker  &spotlite      &kp LC(UP)     &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &bootloader
                 &bootloader    &kp ESC        &layer_hint    &trans
             >;
         };
@@ -239,7 +246,7 @@
              *   thumb: BOOT  -   -   BOOT       |  DFU on each half
              */
             bindings = <
-                &kp ESC        &space_left    &mission_control &space_right &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
+                &kp ESC        &space_left    &kp LC(UP)     &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
                 &vo_toggle     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
                 &browser_tab_next &spotlite   &trans         &trans         &trans         &trans         &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &kp C_NEXT
                 &bootloader    &trans         &trans         &bootloader
