@@ -62,13 +62,6 @@
             quick-tap-ms = <140>;
             bindings = <&kp>, <&kp>;
         };
-        vo_toggle: vo_toggle {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <5>;
-            tap-ms = <5>;
-            bindings = <&macro_press &kp LGUI &macro_tap &kp F5 &macro_release &kp LGUI>;
-        };
         shot_full: shot_full {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -110,13 +103,6 @@
             wait-ms = <5>;
             tap-ms = <5>;
             bindings = <&macro_press &kp LCTRL &macro_press &kp LALT &macro_tap &kp RIGHT &macro_release &kp LALT &macro_release &kp LCTRL>;
-        };
-        ctrl_up: ctrl_up {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <5>;
-            tap-ms = <20>;
-            bindings = <&macro_press &kp LCTRL &macro_tap &kp UP &macro_release &kp LCTRL>;
         };
         browser_tab_next: browser_tab_next {
             compatible = "zmk,behavior-macro";
@@ -193,7 +179,7 @@
                 &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
                 &ht LCTRL A    &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
                 &ht LSHIFT Z   &ht LCTRL X    &ht LALT C     &ht LGUI V     &kp B          &ht RSHIFT N   &ht RCTRL M    &ht RALT COMMA &ht RGUI DOT    &kp ENTER
-                &lt LEF TAB    &kp LGUI       &kp SPACE      &lt RIG TAB
+                &lt LEF TAB    &ht LGUI LGUI  &kp SPACE      &lt RIG TAB
             >;
         };
 
@@ -208,7 +194,7 @@
             bindings = <
                 &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
                 &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &kp LG(TAB)    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
-                &kp GLOBE      &emoji_picker  &spotlite      &ctrl_up       &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                &kp GLOBE      &emoji_picker  &spotlite      &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
                 &trans         &kp ESC        &layer_hint    &trans
             >;
         };
@@ -238,8 +224,8 @@
              *   thumb: -      -   -   -          |  BOOT: hold FUNC then B=left MCU  N=right MCU
              */
             bindings = <
-                &kp ESC        &space_left    &ctrl_up       &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
-                &vo_toggle     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
+                &kp ESC        &space_left    &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
+                &kp LG(F5)     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
                 &browser_tab_next &spotlite   &trans         &trans         &bootloader    &bootloader    &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &bt BT_DISC
                 &trans         &trans         &trans         &trans
             >;
