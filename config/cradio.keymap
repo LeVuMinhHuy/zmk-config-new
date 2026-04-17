@@ -159,8 +159,8 @@
             delay-ms = <0>;
         };
         msc {
-            acceleration-exponent = <0>;
-            time-to-max-speed-ms = <40>;
+            acceleration-exponent = <1>;
+            time-to-max-speed-ms = <280>;
             delay-ms = <0>;
         };
     };
@@ -233,15 +233,15 @@
         tri_layer {
             display-name = "FUNC";
              /*
-             *   ESC    F2     F3     F4     BT0  |  BT1    OUT    MUTE   PREV   Hint
+             *   ESC    SpL    Missn  SpR    BT0  |  BT1    OUT    MUTE   PREV   Hint
              *   VO     Shot4  Shot3  Emoji  BT2  |  BTCLR  BRI+   Studio VOL+   Play
-             *   SpL    SpR    Tab    Spot   -    |  -      BRI-   OFF    VOL-   Next
+             *   TabBr  Spot   -      -      -    |  -      BRI-   OFF    VOL-   Next
              *   thumb: BOOT  -   -   BOOT       |  DFU on each half
              */
             bindings = <
-                &kp ESC        &kp F2         &kp F3         &kp F4         &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
+                &kp ESC        &space_left    &mission_control &space_right &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
                 &vo_toggle     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
-                &space_left    &space_right   &browser_tab_next &spotlite   &trans         &trans         &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &kp C_NEXT
+                &browser_tab_next &spotlite   &trans         &trans         &trans         &trans         &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &kp C_NEXT
                 &bootloader    &trans         &trans         &bootloader
             >;
         };
@@ -249,13 +249,13 @@
         mouse {
             display-name = "MOUSE";
              /*
-             *   MO     MB4    MCLK   MB5    -    |  ScrL   ScrD   MoveU  ScrR   MO
-             *    -      -      -      -      -    |   -     MoveL  MoveD  MoveR   -
-             *   (mouse layer: I=up, J=left, K=down, L=right on RH home row)
+             *   MO     MB4    MCLK   MB5    -    |  ScrL   -      MoveU  ScrR   MO
+             *   -      ScrU   ScrD   -      -    |   -     MoveL  MoveD  MoveR   -
+             *   (I=pointer up; S/D=scroll up/down hold; J/K/L=move)
              */
             bindings = <
-                &tog MOUSE     &mkp MB4      &mkp MCLK      &mkp MB5      &trans         &msc SCRL_LEFT &msc SCRL_DOWN &mmv MOVE_UP   &msc SCRL_RIGHT &tog MOUSE
-                &trans         &trans         &trans         &trans         &trans         &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans
+                &tog MOUSE     &mkp MB4      &mkp MCLK      &mkp MB5      &trans         &msc SCRL_LEFT &trans         &mmv MOVE_UP   &msc SCRL_RIGHT &tog MOUSE
+                &trans         &msc SCRL_UP   &msc SCRL_DOWN &trans         &trans         &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans
                 &trans         &trans         &trans         &trans         &trans         &trans         &mkp MB4       &mkp MCLK      &mkp MB5       &trans
                 &kp SPACE      &kp LSHIFT     &mkp LCLK      &mkp RCLK
             >;
