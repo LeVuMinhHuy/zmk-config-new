@@ -1,7 +1,7 @@
 // Copyright (c) 2022 The ZMK Contributors
 // SPDX-License-Identifier: MIT
 
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 850
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1000
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #include <behaviors.dtsi>
@@ -70,13 +70,6 @@
             tapping-term-ms = <230>;
             quick-tap-ms = <110>;
             bindings = <&kp>, <&kp>;
-        };
-        inp_src: inp_src {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <5>;
-            tap-ms = <5>;
-            bindings = <&macro_press &kp LCTRL &macro_tap &kp SPACE &macro_release &kp LCTRL>;
         };
         vo_toggle: vo_toggle {
             compatible = "zmk,behavior-macro";
@@ -210,14 +203,14 @@
              /*
              *   1      2      3      4      5  |  6      7      8      9      0
              *   DEL    CAPS   PSCR   INS   AppSw |  LEFT   DOWN   UP    RIGHT  CmdGrv
-             *   INP    Emoji  Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    BOOT
-             *   thumb: BOOT(L)  ESC   Hint  -      |  R-hand BOOT on last key row above
+             *   INP    Emoji  Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    -
+             *   thumb: -      ESC   Hint  -      |  (BOOT only on FUNC tri: B/N)
              */
             bindings = <
                 &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
                 &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &kp LG(TAB)    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
-                &inp_src       &emoji_picker  &spotlite      &kp LC(UP)     &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &bootloader
-                &bootloader    &kp ESC        &layer_hint    &trans
+                &kp LC(SPACE)  &emoji_picker  &spotlite      &kp LC(UP)     &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                &trans         &kp ESC        &layer_hint    &trans
             >;
         };
 
@@ -226,14 +219,14 @@
              /*
              *   !      @      #      $      %  |  ^      &      *      `      ~
              *   "      [      {      (    RPT  |  /      -      =      :      ;
-             *   '      ]      }      )    BOOT |  \      _      +      |      ?
-             *   thumb: -   -   MOUSE  BOOT(R)    |  L-hand BOOT on row above col )
+             *   '      ]      }      )     -   |  \      _      +      |      ?
+             *   thumb: -   -   MOUSE  -        |  (BOOT only on FUNC tri: B/N)
              */
             bindings = <
                 &kp EXCL       &kp AT         &kp HASH       &kp DLLR       &kp PRCNT      &kp CARET      &kp AMPS       &kp ASTRK      &kp GRAVE      &kp TILDE
                 &kp DQT        &kp LBKT       &kp LBRC       &kp LPAR       &default_report &kp FSLH       &kp MINUS      &kp EQUAL      &kp COLON      &kp SEMI
-                &kp SQT        &kp RBKT       &kp RBRC       &kp RPAR       &bootloader    &kp BSLH       &kp UNDER      &kp PLUS       &kp PIPE       &kp QMARK
-                &trans         &trans         &tog MOUSE     &bootloader
+                &kp SQT        &kp RBKT       &kp RBRC       &kp RPAR       &trans         &kp BSLH       &kp UNDER      &kp PLUS       &kp PIPE       &kp QMARK
+                &trans         &trans         &tog MOUSE     &trans
             >;
         };
 
@@ -242,14 +235,14 @@
              /*
              *   ESC    SpL    Missn  SpR    BT0  |  BT1    OUT    MUTE   PREV   Hint
              *   VO     Shot4  Shot3  Emoji  BT2  |  BTCLR  BRI+   Studio VOL+   Play
-             *   TabBr  Spot   -      -      -    |  -      BRI-   OFF    VOL-   Next
-             *   thumb: BOOT  -   -   BOOT       |  DFU on each half
+             *   TabBr  Spot   -      -      -    |  -      BRI-   OFF    VOL-   BTdisc
+             *   thumb: -      -   -   -          |  BOOT: hold FUNC then B=left MCU  N=right MCU
              */
             bindings = <
                 &kp ESC        &space_left    &kp LC(UP)     &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
                 &vo_toggle     &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
-                &browser_tab_next &spotlite   &trans         &trans         &trans         &trans         &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &kp C_NEXT
-                &bootloader    &trans         &trans         &bootloader
+                &browser_tab_next &spotlite   &trans         &trans         &bootloader    &bootloader    &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &bt BT_DISC
+                &trans         &trans         &trans         &trans
             >;
         };
 
