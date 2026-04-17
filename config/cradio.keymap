@@ -249,14 +249,14 @@
         mouse {
             display-name = "MOUSE";
              /*
-             *   MO     MB4    MCLK   MB5    -    |  ScrL   -      MoveU  ScrR   MO
-             *   -      ScrU   ScrD   -      -    |   -     MoveL  MoveD  MoveR   -
-             *   (I=pointer up; S/D=scroll up/down hold; J/K/L=move)
+             *   MO     MB4    MCLK   MB5    -    |  -      -      MoveU  -      MO
+             *   ScrL   ScrU   ScrD   ScrR   -    |   -     MoveL  MoveD  MoveR   -
+             *   ESC    Cut    Copy   Past   Undo |  -      Zm+    Zm-    -      -
              */
             bindings = <
-                &tog MOUSE     &mkp MB4      &mkp MCLK      &mkp MB5      &trans         &msc SCRL_LEFT &trans         &mmv MOVE_UP   &msc SCRL_RIGHT &tog MOUSE
-                &trans         &msc SCRL_UP   &msc SCRL_DOWN &trans         &trans         &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans
-                &trans         &trans         &trans         &trans         &trans         &trans         &mkp MB4       &mkp MCLK      &mkp MB5       &trans
+                &tog MOUSE     &mkp MB4      &mkp MCLK      &mkp MB5      &trans         &trans         &trans         &mmv MOVE_UP   &trans         &tog MOUSE
+                &msc SCRL_LEFT &msc SCRL_UP   &msc SCRL_DOWN &msc SCRL_RIGHT &trans       &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans
+                &kp ESC        &kp LG(X)      &kp LG(C)      &kp LG(V)      &kp LG(Z)      &trans         &kp LS(LG(EQUAL)) &kp LG(MINUS) &trans         &trans
                 &kp SPACE      &kp LSHIFT     &mkp LCLK      &mkp RCLK
             >;
         };
