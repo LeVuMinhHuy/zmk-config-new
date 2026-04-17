@@ -67,9 +67,17 @@
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <200>;
-            quick-tap-ms = <160>;
+            tapping-term-ms = <130>;
+            quick-tap-ms = <110>;
             bindings = <&kp>, <&kp>;
+        };
+        ltt: layer_tab_thumb {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <130>;
+            quick-tap-ms = <110>;
+            bindings = <&mo>, <&kp>;
         };
         shot_full: shot_full {
             compatible = "zmk,behavior-macro";
@@ -99,25 +107,11 @@
             tap-ms = <5>;
             bindings = <&macro_press &kp LCTRL &macro_press &kp LGUI &macro_tap &kp SPACE &macro_release &kp LGUI &macro_release &kp LCTRL>;
         };
-        space_left: space_left {
+        lang_x: lang_x {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <25>;
-            tap-ms = <55>;
-            bindings = <&macro_press &kp LGUI &macro_press &kp LCTRL &macro_tap &kp LEFT &macro_release &kp LCTRL &macro_release &kp LGUI>;
-        };
-        space_right: space_right {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <25>;
-            tap-ms = <55>;
-            bindings = <&macro_press &kp LGUI &macro_press &kp LCTRL &macro_tap &kp RIGHT &macro_release &kp LCTRL &macro_release &kp LGUI>;
-        };
-        lang_next: lang_next {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <5>;
-            tap-ms = <30>;
+            wait-ms = <8>;
+            tap-ms = <40>;
             bindings = <&macro_press &kp LCTRL &macro_tap &kp SPACE &macro_release &kp LCTRL>;
         };
         browser_tab_next: browser_tab_next {
@@ -195,7 +189,7 @@
                 &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
                 &ht_tp LCTRL A &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
                 &ht_tp LSHIFT Z &ht_tp LCTRL X &ht_tp LALT C &ht_tp LGUI V &kp B          &ht_tp RSHIFT N &ht_tp RCTRL M &ht_tp RALT COMMA &ht_tp RGUI DOT &kp ENTER
-                &lt LEF TAB    &ht_tp LGUI LGUI &kp SPACE      &lt RIG TAB
+                &ltt LEF TAB   &ht_tp LGUI LGUI &kp SPACE      &ltt RIG TAB
             >;
         };
 
@@ -204,13 +198,13 @@
              /*
              *   1      2      3      4      5  |  6      7      8      9      0
              *   DEL    CAPS   PSCR   INS   AppSw |  LEFT   DOWN   UP    RIGHT  CmdGrv
-             *   Globe  Emoji  Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    -
+             *   Emoji  Lang   Spot   Missn  Shot  |  HOME   PGDN   PGUP   END    -
              *   thumb: -      ESC   Hint  -      |  (BOOT only on FUNC tri: B/N)
              */
             bindings = <
                 &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
                 &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &kp LG(TAB)    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
-                &lang_next     &kp GLOBE      &emoji_picker  &spotlite      &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                &emoji_picker  &lang_x        &spotlite      &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
                 &trans         &kp ESC        &layer_hint    &trans
             >;
         };
@@ -234,15 +228,15 @@
         tri_layer {
             display-name = "FUNC";
              /*
-             *   ESC    SpL    Missn  SpR    BT0  |  BT1    OUT    MUTE   PREV   Hint
+             *   ESC    -      Missn  -      BT0  |  BT1    OUT    MUTE   PREV   Hint
              *   VO     Shot4  Shot3  Emoji  BT2  |  BTCLR  BRI+   Studio VOL+   Play
              *   TabBr  Spot   -      -      -    |  -      BRI-   OFF    VOL-   BTdisc
              *   thumb: -      -   -   -          |  BOOT: hold FUNC then B=left MCU  N=right MCU
              */
             bindings = <
-                &kp ESC        &space_left    &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &space_right   &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
+                &kp ESC        &trans         &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &trans         &bt BT_SEL 0   &bt BT_SEL 1   &out OUT_TOG   &kp C_MUTE     &kp C_PREV     &layer_hint
                 &kp F5         &shot_region   &shot_full     &emoji_picker  &bt BT_SEL 2   &bt BT_CLR     &kp C_BRI_UP   &studio_unlock &kp C_VOL_UP   &kp C_PP
-                &browser_tab_next &spotlite   &kp GLOBE      &trans         &bootloader    &bootloader    &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &bt BT_DISC
+                &browser_tab_next &spotlite   &trans         &trans         &bootloader    &bootloader    &kp C_BRI_DEC  &soft_off      &kp C_VOL_DN   &bt BT_DISC
                 &trans         &trans         &trans         &trans
             >;
         };
@@ -255,8 +249,8 @@
              *   ESC    Cut    Copy   Past   Undo |  Zm+    MB4    MCLK   MB5    Zm-
              */
             bindings = <
-                &tog MOUSE     &trans         &trans         &trans         &trans         &trans         &trans         &mmv MOVE_UP   &trans         &tog MOUSE
-                &msc SCRL_LEFT &msc SCRL_UP   &msc SCRL_DOWN &msc SCRL_RIGHT &trans       &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans
+                &tog MOUSE     &trans         &trans         &trans         &trans         &trans         &trans         &mmv MOVE_UP   &trans         &trans
+                &msc SCRL_LEFT &msc SCRL_UP   &msc SCRL_DOWN &msc SCRL_RIGHT &trans       &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &mkp LCLK
                 &kp ESC        &kp LG(X)      &kp LG(C)      &kp LG(V)      &kp LG(Z)      &kp LS(LG(EQUAL)) &mkp MB4 &mkp MCLK &mkp MB5 &kp LG(MINUS)
                 &kp SPACE      &kp LSHIFT     &mkp LCLK      &mkp RCLK
             >;
