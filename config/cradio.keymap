@@ -79,6 +79,14 @@
             quick-tap-ms = <80>;
             bindings = <&mo>, <&kp>;
         };
+        ltt_rig: layer_tab_thumb_right {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <190>;
+            quick-tap-ms = <130>;
+            bindings = <&mo>, <&kp>;
+        };
         shot_full: shot_full {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -176,13 +184,13 @@
              *   Q      W      E      R      T  |  Y      U      I      O      P
              *   A(Ctrl) S      D      F      G  |  H      J      K      L      BSPC
              *   Z(Sh) X(Ctrl) C(Opt) V(Cmd) B  |  N(Sh) M(C) ,(A) .(Cmd) ENT
-             *   thumb: TAB(SYM)  Cmd  Space  TAB(NUM)
+             *   thumb: LCTRL(SYM)  Cmd  Space  TAB(NUM)
              */
             bindings = <
                 &kp Q          &kp W          &kp E          &kp R          &kp T          &kp Y          &kp U          &kp I          &kp O          &kp P
-                &ht_tp LCTRL A &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
-                &ht_tp LSHIFT Z &ht_tp LCTRL X &ht_tp LALT C &ht_tp LGUI V &kp B          &ht_tp RSHIFT N &ht_tp RCTRL M &ht_tp RALT COMMA &ht_tp RGUI DOT &kp ENTER
-                &ltt LEF TAB   &ht_tp LGUI LGUI &kp SPACE      &ltt RIG TAB
+                &ht LCTRL A &kp S          &kp D          &kp F          &kp G          &kp H          &kp J          &kp K          &kp L          &kp BSPC
+                &ht LSHIFT Z &ht LCTRL X &ht LALT C &ht LGUI V &kp B          &ht RSHIFT N &ht RCTRL M &ht RALT COMMA &ht RGUI DOT &kp ENTER
+                &ltt LEF LCTRL   &ht_tp LGUI LGUI &kp SPACE      &ltt_rig RIG TAB
             >;
         };
 
@@ -197,7 +205,7 @@
             bindings = <
                 &kp N1         &kp N2         &kp N3         &kp N4         &kp N5         &kp N6         &kp N7         &kp N8         &kp N9         &kp N0
                 &kp DEL        &kp CAPS       &kp PSCRN      &kp INS        &kp LG(TAB)    &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT      &same_app_cycle
-                &emoji_picker  &kp GLOBE      &spotlite      &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
+                &emoji_picker  &kp GLOBE      &spotlite      &trans &shot_region   &kp HOME       &kp PG_DN      &kp PG_UP      &kp END        &trans
                 &trans         &kp ESC        &layer_hint    &trans
             >;
         };
@@ -237,13 +245,13 @@
         mouse {
             display-name = "MOUSE";
              /*
-             *   MO     -      -      -      -    |  -      -      MoveU  -      MO
-             *   ScrL   ScrU   ScrD   ScrR   -    |   -     MoveL  MoveD  MoveR   -
+             *   MO     -      Desk   -      -    |  LCLK   MoveU  -      -      -
+             *   ScrL   ScrU   ScrD   ScrR   -    |  MoveL  MoveD  MoveR  -      -
              *   ESC    Cut    Copy   Past   Undo |  Zm+    MB4    MCLK   MB5    Zm-
              */
             bindings = <
-                &tog MOUSE     &trans         &trans         &trans         &trans         &trans         &trans         &mmv MOVE_UP   &trans         &trans
-                &msc SCRL_LEFT &msc SCRL_UP   &msc SCRL_DOWN &msc SCRL_RIGHT &trans       &trans         &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &mkp LCLK
+                &tog MOUSE     &trans         &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS &trans         &trans         &mkp LCLK         &mmv MOVE_UP   &trans         &trans         &trans
+                &msc SCRL_LEFT &msc SCRL_UP   &msc SCRL_DOWN &msc SCRL_RIGHT &trans       &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans
                 &kp ESC        &kp LG(X)      &kp LG(C)      &kp LG(V)      &kp LG(Z)      &kp LS(LG(EQUAL)) &mkp MB4 &mkp MCLK &mkp MB5 &kp LG(MINUS)
                 &kp SPACE      &kp LSHIFT     &mkp LCLK      &mkp RCLK
             >;
